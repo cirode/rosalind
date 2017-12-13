@@ -1,5 +1,5 @@
 from specs import *
-from rosalind.dna import *
+from rosalind.bioinformatics_stronghold.dna import *
 
 
 with description('count_bases'):
@@ -34,3 +34,12 @@ with description('hamming_dist'):
   with context('it is given two strings of equal length'):
     with it('returns the number of positions in those strings that differ'):
       expect(hamming_dist('GAGCCTACTAACGGGAT','CATCGTAATGACGGCCT')).to(equal(7))
+
+
+with description('locate_gene'):
+  with context('it is given a DNA string and a GENE string of nucleotide bases'):
+    with it('returns an array of locations the GENE exists in the DNA string (Example 1)'):
+      expect(locate_gene('AUGCUUCAGAAAGGUCUUACG','U')).to(equal([ 2, 5, 6, 15, 17, 18]))
+
+    with it('returns an array of locations the GENE exists in the DNA string (Example 2)'):
+      expect(locate_gene('GATATATGCATATACTT','ATAT')).to(equal([ 2,4,10]))

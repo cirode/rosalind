@@ -1,4 +1,5 @@
 import re
+from sets import Set
 
 def count_bases(dna_string):
   base_counts = {'A': 0, 'C': 0, 'G': 0, 'T':0}
@@ -29,3 +30,25 @@ def hamming_dist(a, b):
       count += 1
   return count
 
+def locate_gene(dna_string, gene_string):
+  potential_starting_locations = []
+  gene_string_length_minus_one = len(gene_string) -1
+  matching_positions = []
+
+  for i,nucleotide in enumerate(dna_string):
+    if nucleotide == gene_string[0]:
+      potential_starting_locations.append(i)
+
+    kept_starting_locations=[]
+
+    for location in potential_starting_locations:
+      position = i-location
+      if nucleotide != gene_string[position]:
+        pass
+      elif position == gene_string_length_minus_one:
+        matching_positions.append(location)
+      else:
+        kept_starting_locations.append(location)
+
+    potential_starting_locations = kept_starting_locations
+  return map(lambda x: x+1,matching_positions) #return in 1 base
