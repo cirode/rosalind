@@ -31,23 +31,12 @@ def hamming_dist(a, b):
   return count
 
 def locate_gene(dna_string, gene_string):
-  potential_starting_locations = []
-  gene_string_length_minus_one = len(gene_string) -1
   matching_positions = []
-
-  for i,nucleotide in enumerate(dna_string):
-    if nucleotide == gene_string[0]:
-      potential_starting_locations.append(i)
-
-    kept_starting_locations=[]
-
-    for location in potential_starting_locations:
-      position = i-location
-      if nucleotide == gene_string[position]:
-        if position == gene_string_length_minus_one:
-          matching_positions.append(location)
-        else: 
-          kept_starting_locations.append(location)
-
-    potential_starting_locations = kept_starting_locations
-  return map(lambda x: x+1,matching_positions) #return in 1 base
+  position = 0
+  try:
+    while True:
+      found_position = dna_string[position:].index(gene_string)
+      position = found_position+position+1
+      matching_positions.append(position)
+  except ValueError:
+    return matching_positions
