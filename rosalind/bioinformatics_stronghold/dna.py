@@ -43,12 +43,11 @@ def locate_gene(dna_string, gene_string):
 
     for location in potential_starting_locations:
       position = i-location
-      if nucleotide != gene_string[position]:
-        pass
-      elif position == gene_string_length_minus_one:
-        matching_positions.append(location)
-      else:
-        kept_starting_locations.append(location)
+      if nucleotide == gene_string[position]:
+        if position == gene_string_length_minus_one:
+          matching_positions.append(location)
+        else: 
+          kept_starting_locations.append(location)
 
     potential_starting_locations = kept_starting_locations
   return map(lambda x: x+1,matching_positions) #return in 1 base
