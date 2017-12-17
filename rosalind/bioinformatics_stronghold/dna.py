@@ -1,5 +1,8 @@
 import re
+import numpy
 from sets import Set
+
+PROFILE_MATRIX_KEYS={'A': 0, 'C': 1, 'G': 2, 'T':3}
 
 def count_bases(dna_string):
   base_counts = {'A': 0, 'C': 0, 'G': 0, 'T':0}
@@ -40,3 +43,30 @@ def locate_gene(dna_string, gene_string):
       matching_positions.append(position)
   except ValueError:
     return matching_positions
+
+def concensus_profile(dna_string_matrix):
+  profile_matrix = [[],[],[],[]]
+  depth = len(dna_string_matrix)
+  bases = len(dna_string_matrix[0])
+  for j in xrange(bases):
+    position_counts = dict([key,0] for (key,_) in PROFILE_MATRIX_KEYS.iteritems())
+    for i in xrange(depth):
+      nucleotide = dna_string_matrix[i][j]
+      position_counts[nucleotide] += 1
+    for nucleotide, position in PROFILE_MATRIX_KEYS.iteritems():
+      profile_matrix[position].append(position_counts[nucleotide])
+  return profile_matrix
+
+def concensus_sequence(profile_matrix):
+  depth = len(profile_matrix)
+  bases = len(profile_matrix[0])
+  profile_matrix_mapping = dict([[v,k] for k,v in PROFILE_MATRIX_KEYS.iteritems()])
+  sequence = []
+  for j in xrange(bases):
+    max_position = (profile_matrix[0][j],0)
+    for i in xrange(1,depth):
+      candidate_position = (profile_matrix[i][j],i)
+      if candidate_position[0] > max_position[0]:
+        max_position = candidate_position
+    sequence.append(profile_matrix_mapping[max_position[1]])
+  return sequence

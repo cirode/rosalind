@@ -1,3 +1,0 @@
-mamba
-expects
-mock
